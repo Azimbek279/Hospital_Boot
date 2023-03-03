@@ -45,8 +45,23 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void deleteDoctorById(Long id) {
         Doctor doctor = doctorRepository.getById(id);
-        doctorRepository.delete(doctor);
+        Hospital hospital = doctor.getHospital();
+        List<Appointment> appointments = doctor.getAppointments();
+
+        appointments.forEach(appointment -> appointment.getDoctor().setAppointments(null));
+
+        appointments.forEach(appointment -> appointment.getDepartment().setAppointments(null));
+
+        appointments.forEach(appointment -> appointment.getPatient().setAppointments(null));
+
+        hospital.getAppointments().removeAll(appointments);
+
+        for (int i = 0; i < appointments.size(); i++) {
+            appointmentRepository.deleteById(appointments.get(i).getId());
+        }
         doctor.getHospital().minusDoctor();
+        doctorRepository.delete(doctor);
+
 
     }
 
