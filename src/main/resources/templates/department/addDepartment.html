@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Department</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+
+    <style>
+        .container {
+            display: block;
+            margin-top: 250px;
+            margin-left: 570px;
+            font-size: 25px;
+        }
+    </style>
+    <style>
+        .inputbox {
+            position: relative;
+            width: 196px;
+        }
+
+        .inputbox input {
+            position: relative;
+            width: 100%;
+            padding: 20px 10px 10px;
+            background: transparent;
+            outline: none;
+            box-shadow: none;
+            border: none;
+            color: #23242a;
+            font-size: 1em;
+            letter-spacing: 0.05em;
+            transition: 0.5s;
+            z-index: 10;
+        }
+
+        .inputbox span {
+            position: absolute;
+            left: 0;
+            padding: 20px 10px 10px;
+            font-size: 1em;
+            color: #8f8f8f;
+            letter-spacing: 00.05em;
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        .inputbox input:valid ~ span,
+        .inputbox input:focus ~ span {
+            color: #45f3ff;
+            transform: translateX(-10px) translateY(-34px);
+            font-size: 0, 75em;
+        }
+
+        .inputbox i {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: #45f3ff;
+            border-radius: 4px;
+            transition: 0.5s;
+            pointer-events: none;
+            z-index: 9;
+        }
+
+        .inputbox input:valid ~ i,
+        .inputbox input:focus ~ i {
+            height: 44px;
+        }
+    </style>
+
+    <style>
+        .shadow__btn {
+            padding: 10px 20px;
+            border: none;
+            font-size: 17px;
+            color: #fff;
+            border-radius: 7px;
+            letter-spacing: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: 0.5s;
+            transition-property: box-shadow;
+        }
+
+        .shadow__btn {
+            background: rgb(0, 140, 255);
+            box-shadow: 0 0 25px rgb(0, 140, 255);
+        }
+
+        .shadow__btn:hover {
+            box-shadow: 0 0 5px rgb(0, 140, 255),
+            0 0 25px rgb(0, 140, 255),
+            0 0 50px rgb(0, 140, 255),
+            0 0 100px rgb(0, 140, 255);
+        }
+    </style>
+
+    <style>
+        /* Multiple Toggle Switch by Abu Shafiyya */
+
+        fieldset {
+            border: 0;
+        }
+
+        /* Hide default radio */
+        .radio input[type="radio"] {
+            position: absolute;
+            visibility: hidden;
+            display: none;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        body{
+            background-image: url("https://t4.ftcdn.net/jpg/01/23/17/13/360_F_123171377_H89YRmICSVdLq4YGiEhhTZQD7Xa7JSwQ.jpg");
+        }
+
+        /* Customizing label */
+        .radio label {
+            position: relative;
+            padding: 10px 20px 10px 25px;
+            cursor: pointer;
+            border-radius: 20px;
+            color: #2196F3;
+            margin: 0px 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .radio label, .radio label::before {
+            -webkit-transition: .25s all ease;
+            transition: .25s all ease;
+        }
+
+        .radio label::before {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            content: " ";
+            position: absolute;
+            top: 30%;
+            left: 0;
+            width: 1em;
+            height: 1em;
+            border: 2px solid #2196F3;
+        }
+
+        .radio input[type="radio"] + label::before {
+            border-radius: 1em;
+        }
+
+
+        /* Checked toggle */
+        .radio input[type="radio"]:checked + label {
+            color: #fff;
+            background: #2196F3;
+            z-index: 1;
+        }
+
+        .radio input[type="radio"]:checked + label {
+            padding: 10px 20px 10px 20px;
+        }
+
+        .radio input[type="radio"]:checked + label::before {
+            top: 4px;
+            width: 100%;
+            height: 2em;
+            z-index: -1;
+        }
+
+        .radio:hover input[type="radio"]:checked + label {
+            -webkit-box-shadow: #2195f338 0px 0px 0px 25px;
+            box-shadow: #2195f338 0px 0px 0px 25px;
+        }
+    </style>
+</head>
+<body>
+
+<form class="container" th:method="POST" th:action="@{/departments/{id}/saveDepartment (id=${hospitalId})}"
+      th:object="${newDepartment}">
+
+    <br>
+    <div class="inputbox">
+        <input required="required" type="text" th:field="*{name}">
+        <span>Name</span>
+        <i></i>
+    </div>
+    <br>
+
+
+    <button class="shadow__btn" type="submit">Save Department</button>
+
+</form>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</html>

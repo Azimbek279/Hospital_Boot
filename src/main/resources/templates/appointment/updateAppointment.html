@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Appointment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+
+    <style>
+        .container{
+            display: block;
+            margin-top: 250px;
+            margin-left: 570px;
+            font-size:30px;
+
+        }
+    </style>
+    <style>
+        .inputbox {
+            position: relative;
+            width: 196px;
+        }
+
+        .inputbox input {
+            position: relative;
+            width: 100%;
+            padding: 20px 10px 10px;
+            background: transparent;
+            outline: none;
+            box-shadow: none;
+            border: none;
+            color: #23242a;
+            font-size: 1em;
+            letter-spacing: 0.05em;
+            transition: 0.5s;
+            z-index: 10;
+        }
+
+        .inputbox span {
+            position: absolute;
+            left: 0;
+            padding: 20px 10px 10px;
+            font-size: 1em;
+            color: #8f8f8f;
+            letter-spacing: 00.05em;
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        .inputbox input:valid ~span,
+        .inputbox input:focus ~span {
+            color: #45f3ff;
+            transform: translateX(-10px) translateY(-34px);
+            font-size: 0,75em;
+        }
+
+        .inputbox i {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: #45f3ff;
+            border-radius: 4px;
+            transition: 0.5s;
+            pointer-events: none;
+            z-index: 9;
+        }
+
+        .inputbox input:valid ~i,
+        .inputbox input:focus ~i {
+            height: 44px;
+        }
+    </style>
+
+    <style>
+        .shadow__btn {
+            padding: 10px 20px;
+            border: none;
+            font-size: 17px;
+            color: #fff;
+            border-radius: 7px;
+            letter-spacing: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: 0.5s;
+            transition-property: box-shadow;
+        }
+
+        .shadow__btn {
+            background: rgb(0,140,255);
+            box-shadow: 0 0 25px rgb(0,140,255);
+        }
+
+        .shadow__btn:hover {
+            box-shadow: 0 0 5px rgb(0,140,255),
+            0 0 25px rgb(0,140,255),
+            0 0 50px rgb(0,140,255),
+            0 0 100px rgb(0,140,255);
+        }
+        body{
+            background-image: url("https://t4.ftcdn.net/jpg/01/23/17/13/360_F_123171377_H89YRmICSVdLq4YGiEhhTZQD7Xa7JSwQ.jpg");
+        }
+    </style>
+</head>
+<body>
+
+
+
+<form class="container" th:method="POST" th:action="@{/appointments/{id}/{appointmentId}/update (id=${appointment.getId()},appointmentId=${appointment.id})}" th:object="${appointment}">
+
+    <br>
+
+    <div class="inputbox">
+        <input type="date"  name="DeadLine" th:field="*{date}" placeholder="DeadLine">
+        <span>Name</span>
+        <i></i>
+    </div>
+    <br>
+
+    <button class="shadow__btn" type="submit">Update Appointment</button>
+
+</form>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</html>

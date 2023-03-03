@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" ang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400;500&display=swap");
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+            height: 75vh;
+        }
+
+        .card {
+            background-color: #222831;
+            height: 38rem;
+            width: 25rem;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+
+        .card__name {
+            margin-top: 15px;
+            font-size: 1.5em;
+        }
+
+        .card__image {
+            height: 160px;
+            width: 160px;
+            border-radius: 50%;
+            border: 5px solid #272133;
+            margin-top: 20px;
+            box-shadow: 0 10px 50px rgba(235, 25, 110, 1);
+        }
+
+
+        .draw-border {
+            box-shadow: inset 0 0 0 4px #58cdd1;
+            color: #58afd1;
+            -webkit-transition: color 0.25s 0.0833333333s;
+            transition: color 0.25s 0.0833333333s;
+            position: relative;
+        }
+
+        .draw-border::before,
+        .draw-border::after {
+            border: 0 solid transparent;
+            box-sizing: border-box;
+            content: '';
+            pointer-events: none;
+            position: absolute;
+            width: 0rem;
+            height: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        .draw-border::before {
+            border-bottom-width: 4px;
+            border-left-width: 4px;
+        }
+
+        .draw-border::after {
+            border-top-width: 4px;
+            border-right-width: 4px;
+        }
+
+        .draw-border:hover {
+            color: #ffe593;
+        }
+
+        .draw-border:hover::before,
+        .draw-border:hover::after {
+            border-color: #eb196e;
+            -webkit-transition: border-color 0s, width 0.25s, height 0.25s;
+            transition: border-color 0s, width 0.25s, height 0.25s;
+            width: 100%;
+            height: 100%;
+        }
+
+        .draw-border:hover::before {
+            -webkit-transition-delay: 0s, 0s, 0.25s;
+            transition-delay: 0s, 0s, 0.25s;
+        }
+
+        .draw-border:hover::after {
+            -webkit-transition-delay: 0s, 0.25s, 0s;
+            transition-delay: 0s, 0.25s, 0s;
+        }
+
+        .btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            line-height: 1.5;
+            font: 700 1.2rem 'Roboto Slab', sans-serif;
+            padding: 0.75em 2em;
+            letter-spacing: 0.05rem;
+            margin: 1em;
+            width: 13rem;
+        }
+
+        .btn:focus {
+            outline: 2px dotted #55d7dc;
+        }
+
+        body {
+            background-position: center;
+            background-image: url("https://i.pinimg.com/originals/85/6f/31/856f31d9f475501c7552c97dbe727319.jpg");
+        }
+
+
+        .social-icons {
+            padding: 0;
+            list-style: none;
+            margin: 1em;
+        }
+
+        .social-icons li {
+            display: flex;
+            margin: 0.15em;
+            position: relative;
+            font-size: 1em;
+        }
+
+        .social-icons i {
+            color: #fff;
+            position: absolute;
+            top: 0.95em;
+            left: 0.96em;
+            transition: all 265ms ease-out;
+        }
+
+        .social-icons a {
+            display: inline-block;
+        }
+
+        .social-icons a:before {
+            transform: scale(1);
+            -ms-transform: scale(1);
+            -webkit-transform: scale(1);
+            content: " ";
+            width: 45px;
+            height: 45px;
+            border-radius: 100%;
+            display: block;
+            background: linear-gradient(45deg, #ff003c, #c648c8);
+            transition: all 265ms ease-out;
+        }
+
+        .social-icons a:hover:before {
+            transform: scale(0);
+            transition: all 265ms ease-in;
+        }
+
+        .social-icons a:hover i {
+            transform: scale(2.2);
+            -ms-transform: scale(2.2);
+            -webkit-transform: scale(2.2);
+            color: #ff003c;
+            background: -webkit-linear-gradient(45deg, #ff003c, #c648c8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 265ms ease-in;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            font-size: 1.2em;
+        }
+
+    </style>
+    <style>
+        button {
+            padding: 17px 40px;
+            border-radius: 50px;
+            border: 0;
+            background-color: white;
+            box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-size: 15px;
+            transition: all .5s ease;
+        }
+
+        button:hover {
+            letter-spacing: 3px;
+            background-color: hsl(261deg 80% 48%);
+            color: hsl(0, 0%, 100%);
+            box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
+        }
+
+        button:active {
+            letter-spacing: 3px;
+            background-color: hsl(261deg 80% 48%);
+            color: hsl(0, 0%, 100%);
+            box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+            transform: translateY(10px);
+            transition: 100ms;
+        }
+    </style>
+    <style>
+        .input {
+            border: 3px solid rgb(127, 170, 170);
+            border-radius: 20px;
+            background-image: linear-gradient(120deg,#3c3c3c,#585858);
+            color: rgb(127, 170, 170);
+            cursor: pointer;
+            padding: 7px 12px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 17px;
+            transition: all 1s;
+            max-width: 170px;
+        }
+
+        .input:focus {
+            outline-color: rgb(127, 170, 170);
+        }
+    </style>
+</head>
+<body>
+
+<div style="text-align: center">
+    <a th:href="@{/hospitals}">
+        <button class="button1" style="font-size: 20px;  margin: auto"> Back</button>
+    </a>
+</div>
+
+<div class="container" th:each="doctor:${doctors}">
+    <div class="card">
+        <img src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000" alt="Person" class="card__image">
+            <p   class="card__name"  th:text="${doctor.getEmail()}" >Doctor Email</p>
+
+        <div class="grid-container">
+
+            <div class="grid-child-posts" th:text="${doctor.getFirstName()}">
+                First Name
+            </div>
+
+            <div class="grid-child-followers" th:text="${doctor.getLastName()}">
+                Last Name
+            </div>
+
+        </div>
+
+        <div class="grid-child-followers"  th:text="${doctor.getPosition()}">
+            Position
+        </div>
+        <br>
+
+
+
+
+
+        <td>
+            <form th:method="POST"
+                  th:action="@{/doctors/{doctorId}/assignDepartment(doctorId=${doctor.getId()})}">
+                <select style="width: 90px" name="instructor" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        th:object="${department}"
+                        th:field="*{id}">
+                    <option th:each="department : ${departments}"
+                            th:value="${department.id}"
+                            th:text="${department.name}"></option>
+                </select>
+                <input type="submit" name="text" class="input" value="sumbit" placeholder="Type here...">
+            </form>
+        </td>
+
+
+        <br>
+        <td><a th:href="@{/doctors/edit/{doctorId}(doctorId=${doctor.getId()})}">
+            <button>Update</button>
+        </a>
+        <br>
+
+        <td><a >
+            <form th:action="@{/doctors/{id}/{hosId}(id=${doctor.getId()},hosId=${hospitalId})}">
+                <button>DELETE</button>
+            </form>
+        </a>
+    </div>
+</div>
+<div style="text-align: center; margin: 10px">
+    <a th:href="@{/doctors/{id}/newDoctor(id=${hospitalId})}">
+        <button style="font-size: 30px;"> Add DOCTOR</button>
+    </a>
+</div>
+
+</body>
+</html>

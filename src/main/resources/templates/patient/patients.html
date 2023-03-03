@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patients</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        .title{
+            font-size:60px;
+            padding:20px 0px;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color:#eaeaea;
+        }
+        .container{
+            width:900px;
+            margin:0px auto;
+        }
+        /* Float three columns side by side */
+        .column {
+            float: left;
+            width: 33.33%;
+            padding: 0 10px;
+            margin: 15px;
+        }
+
+        /* Remove extra left and right margins, due to padding */
+        .row {margin: 0 -5px;
+        display: flex}
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: flex;
+            clear: both;
+        }
+
+        /* Responsive columns */
+        @media screen and (max-width: 700px) {
+
+            .container{
+                width: 100%;
+            }
+
+            .column {
+                width: 100%;
+                display: flex;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Style the counter cards */
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            text-align: center;
+            background-color: #fff;
+            border-radius:10px;
+            cursor:pointer;
+        }
+        .card .profile{
+            border-radius:10px;
+            transition: 0.2s;
+        }
+        .card:hover .profile{
+            transform:scale(1.4);
+            border-top-right-radius:50px;
+            border-top-left-radius:50px;
+        }
+
+        .card .content{
+            width:100%;
+            height:100%;
+            position:relative;
+            overflow:hidden;
+        }
+        .card .content .back{
+            position:absolute;
+            width:100%;
+            height:100%;
+            background-color: #f1f1f1e6;
+            transition:1s;
+
+            z-index:1;
+            padding:10px;
+        }
+
+        .from-left{
+            top:0;
+            left:-100%;
+        }
+        .card:hover .content .from-left {
+            left:0%;
+        }
+
+        .from-bottom{
+            top:100%;
+            left:0;
+        }
+        .card:hover .content .from-bottom {
+            top:0%;
+        }
+
+        .from-right{
+            top:0%;
+            right:-100%;
+        }
+        .card:hover .content .from-right {
+            right:0;
+        }
+
+        .card .content .back h3{
+            font-size:15px;
+            letter-spacing:2px;
+        }
+        .card .content .back .tem-img{
+            border-radius:100%;
+        }
+
+        .card .content .back .des{
+            font-size:13px;
+            padding:20px 0px;
+        }
+        .card .content .back .social-icon{
+            list-style:none;
+            margin:0px;
+            padding:0px;
+        }
+        .card .content .back .social-icon li{
+            display:inline-block;
+        }
+
+        .card .content .back .social-icon li a{
+            display:block;
+            background:#333;
+            color:#fff;
+            width:40px;
+            height:40px;
+            text-align:center;
+            line-height:40px;
+            border-radius:100%;
+        }
+
+    </style>
+    <style>
+        .button {
+            --color: #00A97F;
+            padding: 0.8em 1.7em;
+            background-color: transparent;
+            border-radius: .3em;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: .5s;
+            font-weight: 400;
+            font-size: 17px;
+            border: 1px solid;
+            font-family: inherit;
+            text-transform: uppercase;
+            color: var(--color);
+            z-index: 1;
+        }
+
+        .button::before, .button::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 50px;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            background-color: var(--color);
+            transition: 1s ease;
+        }
+
+        .button::before {
+            top: -1em;
+            left: -1em;
+        }
+
+        .button::after {
+            left: calc(100% + 1em);
+            top: calc(100% + 1em);
+        }
+
+        .button:hover::before, .button:hover::after {
+            height: 410px;
+            width: 410px;
+        }
+
+        .button:hover {
+            color: rgb(10, 25, 30);
+        }
+
+        .button:active {
+            filter: brightness(.8);
+        }
+
+    </style>
+    <style>
+        .button1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            cursor: pointer;
+            width: 150px;
+            height: 50px;
+            background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+            border-radius: 30px;
+            border: 1px solid #8F9092;
+            transition: all 0.2s ease;
+            font-family: "Source Sans Pro", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #606060;
+            text-shadow: 0 1px #fff;
+        }
+
+        .button1:hover {
+            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
+        }
+
+        .button1:active {
+            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+        }
+
+        .button1:focus {
+            box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+        }
+    </style>
+    <style>
+        .box {
+            width: 140px;
+            height: auto;
+            float: left;
+            transition: .5s linear;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            padding: 15px;
+            text-align: center;
+            margin: 0 50px;
+            background: transparent;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .box:before {
+            position: absolute;
+            content: '';
+            left: 0;
+            bottom: 0;
+            height: 4px;
+            width: 100%;
+            border-bottom: 4px solid transparent;
+            border-left: 4px solid transparent;
+            box-sizing: border-box;
+            transform: translateX(100%);
+        }
+
+        .box:after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            border-top: 4px solid transparent;
+            border-right: 4px solid transparent;
+            box-sizing: border-box;
+            transform: translateX(-100%);
+        }
+
+        .box:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .box:hover:before {
+            border-color: #262626;
+            height: 100%;
+            transform: translateX(0);
+            transition: .3s transform linear, .3s height linear .3s;
+        }
+
+        .box:hover:after {
+            border-color: #262626;
+            height: 100%;
+            transform: translateX(0);
+            transition: .3s transform linear, .3s height linear .5s;
+        }
+
+        button {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+            outline: none;
+            border: none;
+            background: transparent;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<div style="text-align: center">
+    <a th:href="@{/hospitals}">
+        <button class="button1" style="font-size: 20px;  margin: auto"> Back</button>
+    </a>
+</div>
+
+
+
+
+<heading>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure CSS Responsive Card Hover Effect</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</heading>
+
+<div class="container" >
+
+    <center>
+        <h1 class="title">Patients</h1>
+    </center>
+
+
+
+    <div class="row" style="display: flex; flex-wrap: wrap" th:each="patient:${patients}">
+
+
+        <div class="column" style="display: flex; flex-wrap: wrap" >
+            <div class="card">
+                <div class="content">
+                    <div class="front">
+                        <img class="profile" width="100%" src="https://www.pngitem.com/pimgs/m/87-872233_patient-records-patient-record-icon-hd-png-download.png" alt="Ronaldo">
+<!--                        <h2 >First Name</h2>-->
+                        <span th:text="${patient.getFirstName()}">First Name</span>
+                        <span th:text="${patient.getLastName()}">Last Name</span>
+                    </div>
+                    <div class="back from-bottom">
+                        <span th:text="${patient.getFirstName()}">First Name</span>
+                        <span th:text="${patient.getLastName()}">Last Name</span>
+                        <h3 th:text="${patient.getEmail()}" >Email</h3>
+                        <h3 th:text="${patient.getPhoneNumber()}">PhoneNumber</h3>
+                        <h3 th:text="${patient.getGender()}">Gender</h3>
+
+
+                        <td><a th:href="@{/patients/edit/{patientId}(patientId=${patient.getId()})}">
+                            <button class="box" >Update</button>
+                        </a>
+
+                        <br>
+
+
+                        <td><a >
+                            <form  th:action="@{/patients/{id}/{hosId}(id=${patient.getId()},hosId=${hospitalId})}">
+                                <button class="box">DELETE</button>
+                            </form>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+<br>
+<div style="text-align: center">
+    <a th:href="@{/patients/{id}/newPatient(id=${hospitalId})}">
+        <button class="button" style="font-size: 30px;  margin: auto"> ADD PATIENT</button>
+    </a>
+</div>
+
+</div>
+</body>
+</html>
